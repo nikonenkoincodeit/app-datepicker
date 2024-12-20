@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app datepicker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/app-datepicker.css" />
+  </head>
+  <body>
+    <div class="my-datepicker">
+      <div class="app-datepicker">
+        <div class="app-datepicker-col">
+          <p class="app-datepicker-label">Where are you flying from?</p>
+          <p class="app-datepicker-text">Click and select an airport</p>
+          <div class="app-datepicker-menu">
+            <ul class="app-datepicker-list">
+              <li class="app-datepicker-item"><b>[WAW]</b> Chopin Airport Warsaw Okęcie</li>
+              <li class="app-datepicker-item">[WAW] Chopin Airport Warsaw Okęcie</li>
+              <li class="app-datepicker-item">[WAW] Chopin Airport Warsaw Okęcie</li>
+              <li class="app-datepicker-item">[WAW] Chopin Airport Warsaw Okęcie</li>
+              <li class="app-datepicker-item">[WAW] Chopin Airport Warsaw Okęcie</li>
+              <li class="app-datepicker-item">[WAW] Chopin Airport Warsaw Okęcie</li>
+            </ul>
+          </div>
+        </div>
+        <div class="app-datepicker-col">
+          <div class="app-datepicker-value">
+            <p class="app-datepicker-label">Arrival Date at Parking</p>
+            <div class="app-datepicker-date">
+              <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+              <p class="app-datepicker-text">Select a date</p>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+                <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+              </svg>
+            </div>
+            <div class="app-datepicker-menu">
+              <p id="datepicker"></p>
+            </div>
+          </div>
+          <div class="app-datepicker-value">
+            <p class="app-datepicker-label">Departure Date from Parking</p>
+            <div class="app-datepicker-date">
+              <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+              <p class="app-datepicker-text">Select a date</p>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+                <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="app-datepicker-col">
+          <button type="button" class="app-datepicker-btn">
+            <img src="https://cdn-icons-png.flaticon.com/128/3031/3031293.png" alt="Search" width="20" height="20" />
+            Search for Parking
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pl.js"></script>
+    <script src="./js/app-datepicker.js"></script>
+  </body>
+</html>
