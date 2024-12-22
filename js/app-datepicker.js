@@ -1,18 +1,27 @@
 class Datepicker {
   constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", appendTo = "#datepicker", flatpickr = null, screenWidth = 991 } = {}) {
-    this.showMonths = 2;
+    this.showMonths = null;
     this.showMonthsMob = showMonthsMob;
     this.showMonthsDes = showMonthsDes;
     this.screenWidth = screenWidth;
+    this.flatpickrRef = null;
     this.flatpickr = flatpickr;
     this.appendTo = appendTo;
     this.locale = locale;
     this.instance = null;
     this.flagM = false;
     this.flagD = false;
+    this._date = [];
   }
   get isMob() {
     return window.innerWidth < this.screenWidth;
+  }
+  get date() {
+    return this._date;
+  }
+  set date(value) {
+    this._date = value;
+    document.querySelector(".js-btn-done").disabled = this._date.length !== 2;
   }
   createFlatpickr() {
     let _this = this;
@@ -27,12 +36,11 @@ class Datepicker {
       dateFormat: "Y-m-d",
       mode: "range",
       onReady: function (selectedDates, dateStr, instance) {
-        console.log(this);
+        _this.date = selectedDates;
         _this.updateFlatpickr();
       },
       onChange: function (selectedDates) {
-        console.log("selectedDates ", selectedDates);
-        // callback();
+        _this.date = selectedDates;
         _this.updateFlatpickr();
       },
     });
@@ -41,32 +49,34 @@ class Datepicker {
     this.createFlatpickr(this.updateFlatpickr.bind(this));
   }
   start() {
+    this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
     this.init();
     window.addEventListener("resize", this.resize.bind(this));
+    document.querySelector(".close").addEventListener("click", this.closeCalendar.bind(this));
+    document.querySelectorAll(".app-datepicker-col").forEach((el) => {
+      el.addEventListener("click", this.showMenu);
+    });
+    //app-datepicker-col
   }
   destroy() {
     if (!this.instance) return;
     this.instance?.destroy();
     this.instance = null;
-    // window.removeEventListener("resize", this.resize.bind(this));
+  }
+  update() {
+    this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
+    this.destroy();
+    this.init();
   }
   resize() {
-    // if (this.isMob) {
-    //   this.showMonths = this.showMonthsMob;
-    // } else this.showMonths = this.showMonthsDes;
-    console.log(this);
     if (this.isMob && !this.flagM) {
-      this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
-      this.destroy();
-      this.init();
+      this.update();
       this.flagM = true;
       this.flagD = false;
     }
 
     if (!this.isMob && !this.flagD) {
-      this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
-      this.destroy();
-      this.init();
+      this.update();
       this.flagD = true;
       this.flagM = false;
     }
@@ -74,12 +84,12 @@ class Datepicker {
 
   updateFlatpickr() {
     if (!this.isMob) return;
-    const flatpickr = document.querySelector(".flatpickr-calendar");
-    const dayContainer = flatpickr.querySelectorAll(".dayContainer");
-    const flatpickrMonth = flatpickr.querySelectorAll(".flatpickr-month");
+    this.flatpickrRef = document.querySelector(".flatpickr-calendar");
+    const dayContainer = this.flatpickrRef.querySelectorAll(".dayContainer");
+    const flatpickrMonth = this.flatpickrRef.querySelectorAll(".flatpickr-month");
     const datepickerHeader = document.querySelector(".js-app-datepicker-header");
 
-    const weekdaycontainer = flatpickr.querySelector(".flatpickr-weekdaycontainer").cloneNode(true);
+    const weekdaycontainer = this.flatpickrRef.querySelector(".flatpickr-weekdaycontainer").cloneNode(true);
 
     if (datepickerHeader.querySelector(".flatpickr-weekdaycontainer")) {
       datepickerHeader.querySelector(".flatpickr-weekdaycontainer").remove();
@@ -87,8 +97,18 @@ class Datepicker {
     datepickerHeader.insertAdjacentElement("beforeend", weekdaycontainer);
 
     dayContainer.forEach((target, index) => {
-      target.insertAdjacentElement("beforebegin", flatpickrMonth[index].cloneNode(true));
+      const el = flatpickrMonth[index];
+      const text = el.textContent;
+      const year = el.querySelector("input").value;
+      target.insertAdjacentHTML("afterbegin", `<p class="date-title"><b>${text}</b> ${year}</p>`);
     });
+  }
+  closeCalendar(e) {
+    e.stopPropagation();
+    document.querySelector(".js-app-datepicker-content").classList.remove("show");
+  }
+  showMenu() {
+    document.querySelector(".js-app-datepicker-content").classList.add("show");
   }
 }
 

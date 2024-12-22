@@ -1,3 +1,22 @@
+* {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+*:focus,
+*:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
 .app-datepicker {
   padding: 16px;
   max-width: 1120px;
@@ -141,7 +160,6 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  border: 1px solid red;
   box-shadow: 0 5px 9px rgba(0, 0, 0, 0.2), 0 5px 9px rgba(0, 0, 0, 0.2);
 
   display: none;
@@ -177,7 +195,6 @@
   }
   .app-datepicker-content.show {
     display: flex;
-    align-items: center;
     justify-content: center;
   }
 }
@@ -196,7 +213,7 @@
 }
 
 .app-datepicker-footer {
-  height: 70px;
+  height: 80px;
   padding: 16px;
 }
 
@@ -246,6 +263,7 @@
   }
 
   .dayContainer {
+    position: relative;
     display: grid;
     margin: 0 auto;
     width: 90% !important;
@@ -253,6 +271,18 @@
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
   }
+
+  .dayContainer + .dayContainer {
+    box-shadow: none;
+  }
+
+  .date-title {
+    font-size: 20px;
+    position: absolute;
+    top: -30px;
+    left: 0;
+  }
+
   .flatpickr-day {
     display: flex;
     align-items: center;
@@ -263,16 +293,24 @@
     height: 100%;
   }
   .flatpickr-current-month {
-    position: static;
-    display: inline;
+    width: 95%;
+    left: 5%;
+    text-align: left;
+    margin-top: -10px;
+    padding: 0;
   }
+  .arrowUp,
+  .arrowDown,
   .flatpickr-months,
   .flatpickr-weekdays {
     display: none !important;
   }
 
-  .flatpickr-days .flatpickr-month {
-    margin: 15px 0 10px 5%;
+  *:hover,
+  *:focus,
+  *:active {
+    box-shadow: none;
+    outline: none;
   }
 
   .flatpickr-current-month span.cur-month {
@@ -280,26 +318,21 @@
   }
 
   .flatpickr-days {
+    padding-top: 40px;
     flex-direction: column;
+    gap: 40px;
   }
   .app-datepicker-footer,
   .app-datepicker-header {
     display: flex;
   }
 
-  .app-datepicker-content {
-    display: grid;
-    grid-template-rows: 100px calc(100vh - 200px) 100px;
-    max-height: 100vh;
-    height: 100vh;
-    overflow: hidden;
-  }
   .app-datepicker-body {
-    height: calc(100% - 170px);
+    height: calc(100% - 180px);
   }
 
   .app-datepicker-body {
     overflow-y: auto;
-    outline: 1px solid red;
+    outline: 1px solid #ccc;
   }
 }
