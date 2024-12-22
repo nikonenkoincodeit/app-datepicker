@@ -28,6 +28,7 @@ class Datepicker {
     this.instance = this.flatpickr("#datepicker", {
       appendTo: "#datepicker",
       inline: true,
+      clickOpens: false,
       locale: this.locale,
       minDate: "today",
       conjunction: "multiple",
@@ -46,7 +47,7 @@ class Datepicker {
     });
   }
   init() {
-    this.createFlatpickr(this.updateFlatpickr.bind(this));
+    this.createFlatpickr();
   }
   start() {
     this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
