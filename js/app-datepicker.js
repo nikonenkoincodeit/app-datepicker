@@ -1,5 +1,6 @@
 class Datepicker {
-  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", appendTo = "#datepicker", flatpickr = null, screenWidth = 991 } = {}) {
+  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", appendTo = "#datepicker", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker" } = {}) {
+    this.mainSelector = document.querySelector(mainSelector);
     this.showMonths = null;
     this.showMonthsMob = showMonthsMob;
     this.showMonthsDes = showMonthsDes;
@@ -11,7 +12,15 @@ class Datepicker {
     this.instance = null;
     this.flagM = false;
     this.flagD = false;
+    this._airport = "";
     this._date = [];
+  }
+  get airport() {
+    return this._airport;
+  }
+  set airport(value) {
+    this._airport = value;
+    this.mainSelector.querySelector(".js-airport").textContent = value;
   }
   get isMob() {
     return window.innerWidth < this.screenWidth;
@@ -21,7 +30,34 @@ class Datepicker {
   }
   set date(value) {
     this._date = value;
-    document.querySelector(".js-btn-done").disabled = this._date.length !== 2;
+    this.mainSelector.querySelector(".js-btn-done").disabled = this._date.length !== 2;
+  }
+  formatDates(dates, language) {
+    if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
+      throw new Error("Invalid input: provide an array of dates and a valid language code (pl or en).");
+    }
+
+    const localeMap = {
+      en: "en-US",
+      pl: "pl-PL",
+    };
+
+    const formatter = new Intl.DateTimeFormat(localeMap[language], {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+    return dates.map((date) => {
+      if (!(date instanceof Date)) {
+        throw new Error("All elements in the array must be Date objects.");
+      }
+
+      const formattedDate = formatter.format(date);
+      let [day, month, year] = formattedDate.split(" ");
+      month = month[0].toUpperCase() + month.slice(1);
+      return `${day} ${month.replace(".", "")} / ${year}`;
+    });
   }
   createFlatpickr() {
     let _this = this;
@@ -53,11 +89,8 @@ class Datepicker {
     this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
     this.init();
     window.addEventListener("resize", this.resize.bind(this));
-    document.querySelector(".close").addEventListener("click", this.closeCalendar.bind(this));
-    document.querySelectorAll(".app-datepicker-col").forEach((el) => {
-      el.addEventListener("click", this.showMenu);
-    });
-    //app-datepicker-col
+
+    this.mainSelector.addEventListener("click", this.onClick.bind(this));
   }
   destroy() {
     if (!this.instance) return;
@@ -104,14 +137,54 @@ class Datepicker {
       target.insertAdjacentHTML("afterbegin", `<p class="date-title"><b>${text}</b> ${year}</p>`);
     });
   }
-  closeCalendar(e) {
+  onClick(e) {
     e.stopPropagation();
-    document.querySelector(".js-app-datepicker-content").classList.remove("show");
+    const _this = this;
+    function closeMenus(e) {
+      if (e.target.closest(".js-app-datepicker-menu")) return;
+      _this.addDate();
+      close();
+    }
+
+    function close() {
+      _this.closeMenu(e);
+      window.removeEventListener("click", closeMenus);
+    }
+
+    if (e.target.classList.contains("js-btn-done")) {
+      this.addDate();
+      return close();
+    }
+
+    if (e.target.classList.contains("app-datepicker-item")) {
+      this.airport = e.target.dataset.value;
+      return close();
+    }
+
+    if (e.target.classList.contains("js-close")) {
+      return close();
+    }
+
+    if (e.target.closest(".app-datepicker-col")) {
+      this.closeMenu(e);
+      this.showMenu(e);
+      window.addEventListener("click", closeMenus);
+      return;
+    }
   }
-  showMenu() {
-    document.querySelector(".js-app-datepicker-content").classList.add("show");
+  addDate() {
+    if (this.date.length !== 2) return;
+    const result = this.formatDates(this.date, this.locale);
+    this.mainSelector.querySelector(".js-first-date").textContent = result[0];
+    this.mainSelector.querySelector(".js-second-date").textContent = result[1];
+  }
+  showMenu(e) {
+    const parentRef = e.target.closest(".app-datepicker-col");
+    parentRef.querySelector(".js-app-datepicker-menu").classList.add("show");
+  }
+  closeMenu() {
+    const btnRef = this.mainSelector.querySelectorAll(".js-close");
+    if (!btnRef.length) return;
+    btnRef.forEach((el) => el?.closest(".js-app-datepicker-menu").classList.remove("show"));
   }
 }
-
-const datepicker = new Datepicker({ flatpickr });
-datepicker.start();
