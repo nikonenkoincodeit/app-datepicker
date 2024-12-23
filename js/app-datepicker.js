@@ -62,7 +62,68 @@ export default class Datepicker {
     });
   }
   addMarkup() {
-    this.mainSelector.innerHTML = ``;
+    const data = this.languages[this.locale];
+    this.mainSelector.innerHTML = ` <div class="app-datepicker">
+        <div class="app-datepicker-col">
+          <p class="app-datepicker-label">${data.labelAirport}</p>
+          <p class="app-datepicker-text js-airport">${data.placeholderAirport}</p>
+          <div class="app-datepicker-wrapper js-app-datepicker-menu">
+            <div class="app-datepicker-menu app-datepicker-menu-list">
+              <div class="app-datepicker-header">
+                <button type="button" class="close js-close">&#10006;</button>
+              </div>
+              <ul class="app-datepicker-list">
+              ${data?.listOfAirports
+                .map((item) => {
+                  return `<li class="app-datepicker-item" data-value="[${item.code}] ${item.title}"><b>[${item.code}]</b> ${item.title}</li>`;
+                })
+                .join("")}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="app-datepicker-col">
+          <div class="app-datepicker-value">
+            <p class="app-datepicker-label">${data.labelFirstDate}</p>
+            <div class="app-datepicker-date">
+              <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+              <p class="app-datepicker-text js-first-date">${data.placeholderDate}</p>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+                <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="app-datepicker-value">
+            <p class="app-datepicker-label">${data.labelSecondDate}</p>
+            <div class="app-datepicker-date">
+              <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+              <p class="app-datepicker-text js-second-date">${data.placeholderDate}</p>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+                <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="app-datepicker-wrapper js-app-datepicker-menu">
+            <div class="app-datepicker-menu app-datepicker-content">
+              <div class="app-datepicker-header js-app-datepicker-header">
+                <button type="button" class="close js-close">&#10006;</button>
+              </div>
+              <div class="app-datepicker-body">
+                <p id="datepicker"></p>
+              </div>
+              <div class="app-datepicker-footer">
+                <button class="app-datepicker-btn js-btn-done" type="button" disabled>${data.doneBtn}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app-datepicker-col">
+          <button type="button" class="app-datepicker-btn">
+            <img src="https://cdn-icons-png.flaticon.com/128/3031/3031293.png" alt="Search" width="20" height="20" />
+            ${data.sendBtn}
+          </button>
+        </div>
+      </div>`;
   }
   createFlatpickr() {
     let _this = this;
@@ -91,7 +152,7 @@ export default class Datepicker {
     this.createFlatpickr();
   }
   start() {
-    //this.addMarkup();
+    this.addMarkup();
     this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
     this.init();
     window.addEventListener("resize", this.resize.bind(this));
@@ -148,7 +209,6 @@ export default class Datepicker {
     const _this = this;
     function closeMenus(e) {
       if (e.target.closest(".js-app-datepicker-menu")) return;
-      // _this.addDate();
       close();
     }
 
@@ -157,8 +217,7 @@ export default class Datepicker {
       window.removeEventListener("click", closeMenus);
     }
 
-    if (e.target.classList.contains("js-btn-done")) {
-      // this.addDate();
+    if (e.target.classList.contains("js-btn-done") || e.target.classList.contains("app-datepicker-wrapper")) {
       return close();
     }
 
@@ -179,9 +238,10 @@ export default class Datepicker {
     }
   }
   addDate() {
+    const placeholder = this.languages[this.locale]?.placeholderDate;
     const [firstDate, SecondDate] = this.formatDates(this.date, this.locale);
-    if (firstDate) this.mainSelector.querySelector(".js-first-date").textContent = firstDate;
-    if (SecondDate) this.mainSelector.querySelector(".js-second-date").textContent = SecondDate;
+    this.mainSelector.querySelector(".js-first-date").textContent = firstDate ? firstDate : placeholder;
+    this.mainSelector.querySelector(".js-second-date").textContent = SecondDate ? SecondDate : placeholder;
   }
   showMenu(e) {
     const parentRef = e.target.closest(".app-datepicker-col");
