@@ -1,13 +1,14 @@
-class Datepicker {
-  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", appendTo = "#datepicker", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker" } = {}) {
+export default class Datepicker {
+  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", appendTo = "#datepicker", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker", languages = null } = {}) {
     this.mainSelector = document.querySelector(mainSelector);
     this.showMonths = null;
     this.showMonthsMob = showMonthsMob;
     this.showMonthsDes = showMonthsDes;
     this.screenWidth = screenWidth;
-    this.flatpickrRef = null;
+    this.languages = languages;
     this.flatpickr = flatpickr;
     this.appendTo = appendTo;
+    this.flatpickrRef = null;
     this.locale = locale;
     this.instance = null;
     this.flagM = false;
@@ -31,6 +32,7 @@ class Datepicker {
   set date(value) {
     this._date = value;
     this.mainSelector.querySelector(".js-btn-done").disabled = this._date.length !== 2;
+    this.addDate();
   }
   formatDates(dates, language) {
     if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
@@ -59,6 +61,9 @@ class Datepicker {
       return `${day} ${month.replace(".", "")} / ${year}`;
     });
   }
+  addMarkup() {
+    this.mainSelector.innerHTML = ``;
+  }
   createFlatpickr() {
     let _this = this;
     this.instance = this.flatpickr("#datepicker", {
@@ -86,6 +91,7 @@ class Datepicker {
     this.createFlatpickr();
   }
   start() {
+    //this.addMarkup();
     this.showMonths = this.isMob ? this.showMonthsMob : this.showMonthsDes;
     this.init();
     window.addEventListener("resize", this.resize.bind(this));
@@ -142,7 +148,7 @@ class Datepicker {
     const _this = this;
     function closeMenus(e) {
       if (e.target.closest(".js-app-datepicker-menu")) return;
-      _this.addDate();
+      // _this.addDate();
       close();
     }
 
@@ -152,7 +158,7 @@ class Datepicker {
     }
 
     if (e.target.classList.contains("js-btn-done")) {
-      this.addDate();
+      // this.addDate();
       return close();
     }
 
@@ -173,10 +179,9 @@ class Datepicker {
     }
   }
   addDate() {
-    if (this.date.length !== 2) return;
-    const result = this.formatDates(this.date, this.locale);
-    this.mainSelector.querySelector(".js-first-date").textContent = result[0];
-    this.mainSelector.querySelector(".js-second-date").textContent = result[1];
+    const [firstDate, SecondDate] = this.formatDates(this.date, this.locale);
+    if (firstDate) this.mainSelector.querySelector(".js-first-date").textContent = firstDate;
+    if (SecondDate) this.mainSelector.querySelector(".js-second-date").textContent = SecondDate;
   }
   showMenu(e) {
     const parentRef = e.target.closest(".app-datepicker-col");

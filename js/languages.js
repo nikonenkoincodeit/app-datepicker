@@ -1,4 +1,4 @@
-const languages = {
+export const languages = {
   en: {
     labelAirport: "Where are you flying from?",
     labelFirstDate: "Arrival Date at Parking",
