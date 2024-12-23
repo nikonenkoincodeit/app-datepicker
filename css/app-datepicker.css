@@ -267,7 +267,6 @@ body {
     width: 90% !important;
     max-width: 90% !important;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
   }
 
   .dayContainer + .dayContainer {
