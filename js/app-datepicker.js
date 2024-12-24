@@ -6,7 +6,7 @@ export default class Datepicker {
     this.showMonthsDes = showMonthsDes;
     this.appendTo = "#datepicker";
     this.screenWidth = screenWidth;
-    this.languages = languages;
+    this._languages = languages;
     this.flatpickr = flatpickr;
     this.callback = callback;
     this.locale = locale;
@@ -21,6 +21,10 @@ export default class Datepicker {
   }
 
   // Getters and setters
+  get languages() {
+    return this._languages[this.locale];
+  }
+
   get airport() {
     return this._airport;
   }
@@ -75,7 +79,7 @@ export default class Datepicker {
 
   // Adding HTML Markup
   addMarkup() {
-    const { labelAirport, placeholderAirport, labelFirstDate, labelSecondDate, placeholderDate, doneBtn, sendBtn, listOfAirports } = this.languages[this.locale];
+    const { labelAirport, placeholderAirport, labelFirstDate, labelSecondDate, placeholderDate, doneBtn, sendBtn, listOfAirports } = this.languages;
 
     const airportListMarkup = listOfAirports.map(({ code, title }) => `<li class="app-datepicker-item" data-value="[${code}] ${title}" data-code="${code}"><b>[${code}]</b> ${title}</li>`).join("");
 
@@ -83,7 +87,7 @@ export default class Datepicker {
       <div class="app-datepicker">
         <div class="app-datepicker-col">
           <p class="app-datepicker-label">${labelAirport}</p>
-          <p class="app-datepicker-text js-airport">${placeholderAirport}</p>
+          <p class="app-datepicker-text js-airport">${this.getAirport(placeholderAirport)}</p>
           <div class="app-datepicker-wrapper js-app-datepicker-menu">
             <div class="app-datepicker-menu app-datepicker-menu-list">
               <div class="app-datepicker-header">
@@ -161,6 +165,14 @@ export default class Datepicker {
     this.instance = this.flatpickr(this.appendTo, obj);
   }
 
+  getAirport(airport) {
+    if (!this.code) return airport;
+
+    const { code, title } = this.languages.listOfAirports.find((item) => item.code === this.code);
+
+    return `[${code}] ${title}`;
+  }
+
   // Initialization
   start(locale = null) {
     if (locale) this.locale = locale;
@@ -187,7 +199,7 @@ export default class Datepicker {
   }
 
   addDate() {
-    const placeholder = this.languages[this.locale]?.placeholderDate;
+    const placeholder = this.languages?.placeholderDate;
     const [from, to] = this.formatDates(this.date, this.locale);
 
     this.updateContent(".js-first-date", from ? from : placeholder);
