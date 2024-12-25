@@ -128,12 +128,12 @@ export default class Datepicker {
 
   // Initialization
   async start() {
+    this.languages = await this.receiveATransfer();
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
     this.addEventListeners();
     this.setCorrectHeight();
     this.addDate();
-    this.languages = await this.receiveATransfer();
   }
 
   addEventListeners() {
