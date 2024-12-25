@@ -1,12 +1,12 @@
 export default class Datepicker {
-  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "pl", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker", languages = null, callback = null } = {}) {
-    this.closeClasses = ["js-btn-done", "app-datepicker-wrapper", "js-close", "js-app-datepicker-send"];
+  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "en", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker", callback = null } = {}) {
+    this.closeClasses = ["js-btn-done", "app-datepicker-wrapper", "js-close", "js-app-datepicker-send", "js-btn-send"];
     this.mainSelector = document.querySelector(mainSelector);
     this.showMonthsMob = showMonthsMob;
     this.showMonthsDes = showMonthsDes;
     this.appendTo = "#datepicker";
     this.screenWidth = screenWidth;
-    this._languages = languages;
+    this._languages = null;
     this.flatpickr = flatpickr;
     this.callback = callback;
     this.locale = locale;
@@ -22,7 +22,11 @@ export default class Datepicker {
 
   // Getters and setters
   get languages() {
-    return this._languages[this.locale];
+    return this._languages;
+  }
+
+  set languages(value) {
+    this._languages = value;
   }
 
   get airport() {
@@ -77,65 +81,14 @@ export default class Datepicker {
     });
   }
 
-  // Adding HTML Markup
-  addMarkup() {
-    const { labelAirport, placeholderAirport, labelFirstDate, labelSecondDate, placeholderDate, doneBtn, sendBtn, listOfAirports } = this.languages;
-
-    const airportListMarkup = listOfAirports.map(({ code, title }) => `<li class="app-datepicker-item" data-value="[${code}] ${title}" data-code="${code}"><b>[${code}]</b> ${title}</li>`).join("");
-
-    this.mainSelector.innerHTML = `
-      <div class="app-datepicker">
-        <div class="app-datepicker-col">
-          <p class="app-datepicker-label">${labelAirport}</p>
-          <p class="app-datepicker-text js-airport">${this.getAirport(placeholderAirport)}</p>
-          <div class="app-datepicker-wrapper js-app-datepicker-menu">
-            <div class="app-datepicker-menu app-datepicker-menu-list">
-              <div class="app-datepicker-header">
-                <button type="button" class="close js-close">&#10006;</button>
-              </div>
-              <ul class="app-datepicker-list">${airportListMarkup}</ul>
-            </div>
-          </div>
-        </div>
-        <!-- Dates and Footer -->
-        <div class="app-datepicker-col">
-          ${this.getDateMarkup(labelFirstDate, placeholderDate, "js-first-date")}
-          ${this.getDateMarkup(labelSecondDate, placeholderDate, "js-second-date")}
-          <div class="app-datepicker-wrapper js-app-datepicker-menu">
-            <div class="app-datepicker-menu app-datepicker-content">
-              <div class="app-datepicker-header js-app-datepicker-header">
-                <button type="button" class="close js-close">&#10006;</button>
-              </div>
-              <div class="app-datepicker-body">
-                <p id="datepicker"></p>
-              </div>
-              <div class="app-datepicker-footer">
-                <button class="app-datepicker-btn js-btn-done" type="button" disabled>${doneBtn}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="app-datepicker-col js-app-datepicker-send">
-          <button type="button" class="app-datepicker-btn js-send-btn">
-            <img src="https://cdn-icons-png.flaticon.com/128/3031/3031293.png" alt="Search" width="20" height="20" />
-            ${sendBtn}
-          </button>
-        </div>
-      </div>`;
-  }
-
-  getDateMarkup(label, placeholder, className) {
-    return `
-      <div class="app-datepicker-value">
-        <p class="app-datepicker-label">${label}</p>
-        <div class="app-datepicker-date">
-          <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
-          <p class="app-datepicker-text ${className}">${placeholder}</p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
-            <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
-          </svg>
-        </div>
-      </div>`;
+  async receiveATransfer() {
+    try {
+      const jsonData = await fetch(`../locales/${this.locale}.json`);
+      const response = await jsonData.json();
+      return response;
+    } catch ({ message }) {
+      console.log(message);
+    }
   }
 
   // Flatpickr
@@ -174,14 +127,13 @@ export default class Datepicker {
   }
 
   // Initialization
-  start(locale = null) {
-    if (locale) this.locale = locale;
-
-    this.addMarkup();
+  async start() {
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
     this.addEventListeners();
+    this.setCorrectHeight();
     this.addDate();
+    this.languages = await this.receiveATransfer();
   }
 
   addEventListeners() {
@@ -189,11 +141,19 @@ export default class Datepicker {
     this.mainSelector.addEventListener("click", this.handleClick.bind(this));
   }
 
+  setCorrectHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
   // Event Handling
   handleClick(e) {
     e.stopPropagation();
-    if (this.closeClasses.some((cls) => e.target.classList.contains(cls))) return this.closeMenus();
-    if (e.target.closest(".js-send-btn")) return this.send();
+    if (e.target.closest(".js-btn-send")) this.send();
+    // if (e.target.closest(".js-btn-done")) this.done();
+    const result = this.closeClasses.some((cls) => e.target.classList.contains(cls));
+    if (result) return this.closeMenus();
+
     if (e.target.classList.contains("app-datepicker-item")) return this.selectAirport(e.target);
     if (e.target.closest(".app-datepicker-col")) this.toggleMenu(e.target.closest(".app-datepicker-col"));
   }
@@ -227,9 +187,12 @@ export default class Datepicker {
     this.callback({ fromDate: from || "", toDate: to || "", code: this.code });
   }
 
+  // done() {}
+
   // Handling window resizing
   resize() {
     const isMobile = this.isMobile;
+    this.setCorrectHeight();
     if (isMobile && !this.flags.isMobile) {
       this.showMonths = this.showMonthsMob;
       this.flags.isMobile = true;
@@ -249,26 +212,15 @@ export default class Datepicker {
   }
 
   destroy() {
-    if (this.instance) {
-      this.instance.destroy();
-      this.instance = null;
-    }
+    if (!this.instance) return;
+    this.instance.destroy();
+    this.instance = null;
   }
   updateFlatpickr() {
     if (!this.isMobile) return;
 
     const dayContainer = this.mainSelector.querySelectorAll(".dayContainer");
     const flatpickrMonth = this.mainSelector.querySelectorAll(".flatpickr-month");
-    const datepickerHeader = this.mainSelector.querySelector(".js-app-datepicker-header");
-
-    const weekdaycontainer = this.mainSelector.querySelector(".flatpickr-weekdaycontainer").cloneNode(true);
-
-    const weekdayRef = datepickerHeader.querySelector(".flatpickr-weekdaycontainer");
-
-    if (weekdayRef) {
-      weekdayRef.remove();
-    }
-    datepickerHeader.insertAdjacentElement("beforeend", weekdaycontainer);
 
     dayContainer.forEach((target, index) => {
       const el = flatpickrMonth[index];

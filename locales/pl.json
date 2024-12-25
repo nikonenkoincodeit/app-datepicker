@@ -1,0 +1,28 @@
+{
+    "labelAirport": "Skąd wylatujesz?",
+    "labelFirstDate": "Data przyjazdu na parking",
+    "labelSecondDate": "Data wyjazdu z parkingu",
+    "placeholderAirport": "Kliknij i wybierz lotnisko",
+    "placeholderDate": "wybierz datę",
+    "sendBtn": "Szukaj Parkingu",
+    "doneBtn": "Gotowy",
+    "listOfAirports": [
+      { "id": 1, "code": "WAW", "title": "Chopina Warszawa Okęcie" },
+      { "id": 2, "code": "WMI", "title": "Warszawa Modlin" },
+      { "id": 3, "code": "KTW", "title": "Katowice Pyrzowice" },
+      { "id": 4, "code": "KRK", "title": "Kraków Balice" },
+      { "id": 5, "code": "GDN", "title": "Gdańsk" },
+      { "id": 6, "code": "WRO", "title": "Wrocław Strachowice" },
+      { "id": 7, "code": "POZ", "title": "Poznań Ławica" }
+    ],
+    "weekDays": [
+      { "id": 1, "title": "Pn" },
+      { "id": 2, "title": "Wt" },
+      { "id": 3, "title": "Śr" },
+      { "id": 4, "title": "Cz" },
+      { "id": 5, "title": "Pt" },
+      { "id": 6, "title": "So" },
+      { "id": 7, "title": "Nd" }
+    ]
+  }
+  

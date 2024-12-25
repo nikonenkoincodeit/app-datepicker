@@ -1,0 +1,28 @@
+{
+    "labelAirport": "Where are you flying from?",
+    "labelFirstDate": "Arrival Date at Parking",
+    "labelSecondDate": "Departure Date from Parking",
+    "placeholderAirport": "Click and select an airport",
+    "placeholderDate": "Select a date",
+    "sendBtn": "Search for Parking",
+    "doneBtn": "Done",
+    "listOfAirports": [
+      { "id": 1, "code": "WAW", "title": "Chopin Airport Warsaw Okęcie" },
+      { "id": 2, "code": "WMI", "title": "Warsaw Modlin Airport" },
+      { "id": 3, "code": "KTW", "title": "Katowice Pyrzowice Airport" },
+      { "id": 4, "code": "KRK", "title": "Krakow Balice Airport" },
+      { "id": 5, "code": "GDN", "title": "Gdansk Airport" },
+      { "id": 6, "code": "WRO", "title": "Wroclaw Strachowice Airport" },
+      { "id": 7, "code": "POZ", "title": "Poznan Lawica Airport" }
+    ],
+    "weekDays": [
+      { "id": 1, "title": "Sun" },
+      { "id": 2, "title": "Mon" },
+      { "id": 3, "title": "Tue" },
+      { "id": 4, "title": "Wed" },
+      { "id": 5, "title": "Thu" },
+      { "id": 6, "title": "Fri" },
+      { "id": 7, "title": "Sat" }
+    ]
+  }
+  
