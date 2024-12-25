@@ -83,7 +83,7 @@ export default class Datepicker {
 
   async receiveATransfer() {
     try {
-      const jsonData = await fetch(`../locales/${this.locale}.json`);
+      const jsonData = await fetch(`https://nikonenkoincodeit.github.io/app-datepicker/locales/${this.locale}.json`);
       const response = await jsonData.json();
       return response;
     } catch ({ message }) {
@@ -133,7 +133,6 @@ export default class Datepicker {
     this.createFlatpickr();
     this.addEventListeners();
     this.setCorrectHeight();
-    this.addDate();
   }
 
   addEventListeners() {
