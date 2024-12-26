@@ -1,44 +1,37 @@
-# README: Datepicker Implementation and Customization
+# README: Implementacja i konfiguracja Datepicker
 
-## Overview
-
-The provided code implements a custom date picker component using the `flatpickr` library. This README explains how to use the date picker, outlines its configuration options, and provides guidance for customization.
+## Przegląd
+Załączony kod implementuje niestandardowy komponent wyboru daty przy użyciu biblioteki `flatpickr`. W tym pliku README opisano, jak korzystać z komponentu wyboru dat, jego parametry konfiguracyjne oraz sposoby dostosowania.
 
 ---
 
-## Getting Started
+## Rozpoczęcie pracy
 
-### Installation
-
-1. Include the `flatpickr` library in your project:
-
+### Instalacja
+1. Podłącz bibliotekę `flatpickr` do swojego projektu:
    ```html
    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pl.js"></script>
    ```
 
-2. Import the `Datepicker` class from the `app-datepicker.js` file:
-
+2. Zaimportuj klasę `Datepicker` z pliku `app-datepicker.js`:
    ```javascript
    import Datepicker from "./app-datepicker.js";
    ```
 
-3. Create a new instance of `Datepicker`:
-
+3. Utwórz nową instancję `Datepicker`:
    ```javascript
    const datepicker = new Datepicker({
-       flatpickr,
+       flatpickr, 
        callback: (payload) => console.log(payload),
        mainSelector: ".my-datepicker"
    });
-
+   
    datepicker.start();
    ```
 
-### HTML Structure
-
-The date picker requires specific HTML structure. Ensure your container has a class matching the `mainSelector` parameter. For example:
-
+### Struktura HTML
+Aby komponent wyboru dat działał poprawnie, wymagana jest określona struktura HTML. Upewnij się, że kontener posiada klasę zgodną z parametrem `mainSelector`. Na przykład:
 ```html
 <div class="my-datepicker">
     ...
@@ -47,38 +40,35 @@ The date picker requires specific HTML structure. Ensure your container has a cl
 
 ---
 
-## Configuration Options
+## Parametry konfiguracyjne
+Klasa `Datepicker` przyjmuje następujące parametry:
 
-The `Datepicker` class accepts the following parameters:
-
-| Parameter       | Type       | Default          | Description                                      |
-| --------------- | ---------- | ---------------- | ------------------------------------------------ |
-| `showMonthsMob` | `number`   | `12`             | Number of months displayed on mobile.            |
-| `showMonthsDes` | `number`   | `2`              | Number of months displayed on desktop.           |
-| `locale`        | `string`   | `"en"`           | Language locale (e.g., `"pl"` for Polish).       |
-| `flatpickr`     | `object`   | `null`           | Reference to the `flatpickr` library.            |
-| `screenWidth`   | `number`   | `991`            | Screen width breakpoint for mobile/desktop view. |
-| `mainSelector`  | `string`   | `.my-datepicker` | CSS selector for the main date picker container. |
-| `callback`      | `function` | `null`           | Callback function triggered on date selection.   |
+| Parametr          | Typ       | Domyślnie    | Opis                                                                  |
+|--------------------|-----------|--------------|----------------------------------------------------------------------|
+| `showMonthsMob`    | `number`  | `12`         | Liczba miesięcy wyświetlanych na urządzeniach mobilnych.             |
+| `showMonthsDes`    | `number`  | `2`          | Liczba miesięcy wyświetlanych na urządzeniach stacjonarnych.         |
+| `locale`           | `string`  | `"en"`       | Lokalizacja (np. `"pl"` dla języka polskiego).                       |
+| `flatpickr`        | `object`  | `null`       | Odwołanie do biblioteki `flatpickr`.                                 |
+| `screenWidth`      | `number`  | `991`        | Szerokość ekranu do przełączania widoków między urządzeniami.        |
+| `mainSelector`     | `string`  | `.my-datepicker` | Selektor CSS głównego kontenera wyboru daty.                          |
+| `callback`         | `function`| `null`       | Funkcja wywoływana po wyborze daty.                                  |
 
 ---
 
-## Usage
+## Użycie
 
-### Initializing Multiple Date Pickers
-
-You can create multiple instances of the date picker with different configurations:
-
+### Inicjalizacja wielu komponentów wyboru daty
+Możesz utworzyć kilka instancji wyboru dat z różnymi konfiguracjami:
 ```javascript
 const datepicker1 = new Datepicker({
-    flatpickr,
-    callback: (payload) => console.log("Instance 1: ", payload),
+    flatpickr, 
+    callback: (payload) => console.log("Instancja 1: ", payload),
     mainSelector: ".datepicker-instance-1"
 });
 
 const datepicker2 = new Datepicker({
-    flatpickr,
-    callback: (payload) => console.log("Instance 2: ", payload),
+    flatpickr, 
+    callback: (payload) => console.log("Instancja 2: ", payload),
     mainSelector: ".datepicker-instance-2",
     locale: "pl"
 });
@@ -87,75 +77,65 @@ datepicker1.start();
 datepicker2.start();
 ```
 
-### Handling Callback
-
-The `callback` parameter receives an object containing the selected date range and airport code:
-
+### Obsługa funkcji zwrotnej (callback)
+Parametr `callback` otrzymuje obiekt zawierający wybrany zakres dat oraz kod lotniska:
 ```javascript
 const callback = ({ fromDate, toDate, code }) => {
-    console.log("From:", fromDate, "To:", toDate, "Airport Code:", code);
+    console.log("Od:", fromDate, "Do:", toDate, "Kod lotniska:", code);
 };
 ```
 
 ---
 
-## Customization
+## Dostosowanie
 
-### Custom HTML Classes
+### Niestandardowe klasy HTML
+Możesz zmienić strukturę HTML, dostosowując klasy w swojej implementacji. Upewnij się, że wszelkie zmiany klas są uwzględnione w metodach klasy `Datepicker`, takich jak `updateContent`, `updateButtonState` i `addEventListeners`.
 
-You can customize the HTML structure by adjusting class selectors in your implementation. Ensure any custom class names are updated in the `Datepicker` class methods such as `updateContent`, `updateButtonState`, and `addEventListeners`.
-
-### Language Localization
-
-Date formatting and localization can be customized via the `locale` parameter. Ensure you import the appropriate locale file from `flatpickr`:
-
+### Lokalizacja
+Formatowanie daty i lokalizacja mogą być dostosowane za pomocą parametru `locale`. Upewnij się, że zaimportowałeś odpowiedni plik lokalizacyjny z `flatpickr`:
 ```javascript
-import "flatpickr/dist/l10n/pl.js"; // For Polish locale
+import "flatpickr/dist/l10n/pl.js"; // Dla języka polskiego
 ```
 
-### Event Handling
+> **Uwaga**: W funkcji `fetch` w metodzie `receiveATransfer` należy podać własny link do pliku JSON z tłumaczeniami. Przykład:
+> ```javascript
+> const jsonData = await fetch(`https://your-domain.com/locales/${this.locale}.json`);
+> ```
 
-The `handleClick` method processes click events within the date picker. You can extend this method to add custom behaviors.
+### Obsługa zdarzeń
+Metoda `handleClick` obsługuje kliknięcia wewnątrz komponentu wyboru daty. Możesz rozszerzyć tę metodę, aby dodać własne zachowanie.
 
-### Adjusting Mobile/Desktop Views
-
-The number of months displayed can be adjusted via the `showMonthsMob` and `showMonthsDes` parameters. The `resize` method dynamically updates the display based on screen width.
-
----
-
-## Error Handling
-
-The following errors may occur during use:
-
-1. **Invalid Date Format**: Ensure that all dates passed to `formatDates` are `Date` objects.
-2. **Missing Locale Files**: Ensure the required locale JSON file is hosted at the specified URL.
+### Dostosowanie widoku mobilnego i stacjonarnego
+Liczba wyświetlanych miesięcy może być dostosowana za pomocą parametrów `showMonthsMob` i `showMonthsDes`. Metoda `resize` dynamicznie aktualizuje wyświetlanie w zależności od szerokości ekranu.
 
 ---
 
-## Example Project
+## Obsługa błędów
+Podczas korzystania z komponentu mogą wystąpić następujące błędy:
+1. **Nieprawidłowy format daty**: Upewnij się, że wszystkie daty przekazywane do `formatDates` są obiektami `Date`.
+2. **Brak plików lokalizacyjnych**: Upewnij się, że odpowiednie pliki JSON z lokalizacjami są dostępne pod podanym adresem URL.
 
-Here is a complete example of using the `Datepicker` class:
+---
+
+## Przykład projektu
+Poniżej znajduje się pełny przykład użycia klasy `Datepicker`:
 
 ### HTML
-
 ```html
 <div class="my-datepicker">
-    <div class="datepicker"></div>
-    <button class="js-btn-done">Done</button>
-    <div class="js-first-date"></div>
-    <div class="js-second-date"></div>
+    ...
 </div>
 ```
 
 ### JavaScript
-
 ```javascript
 import "https://cdn.jsdelivr.net/npm/flatpickr";
 import Datepicker from "./app-datepicker.js";
 
 const datepicker = new Datepicker({
     flatpickr,
-    callback: ({ fromDate, toDate }) => console.log(`Selected: ${fromDate} - ${toDate}`),
+    callback: ({ fromDate, toDate }) => console.log(`Wybrano: ${fromDate} - ${toDate}`),
     mainSelector: ".my-datepicker"
 });
 
@@ -164,9 +144,6 @@ datepicker.start();
 
 ---
 
-## License
-
-This project is licensed under the MIT License. For more details, see the LICENSE file.
-
-переведи на русский 
+## Licencja
+Ten projekt jest licencjonowany na podstawie licencji MIT. Więcej informacji znajduje się w pliku LICENSE.
 
