@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/app-datepicker.css" />
   </head>
-  <body>
+  <br>
     <div class="my-datepicker">
       <div class="app-datepicker">
         <div class="app-datepicker-col">
@@ -73,7 +73,7 @@
                 </div>
               </div>
               <div class="app-datepicker-body">
-                <p id="datepicker"></p>
+                <p class="datepicker"></p>
               </div>
               <div class="app-datepicker-footer">
                 <button class="app-datepicker-btn js-btn-done" type="button" disabled>Done</button>
@@ -89,6 +89,90 @@
         </div>
       </div>
     </div>
+
+  </br>
+  </br>
+  </br>
+  <div class="my-datepicker-2">
+    <div class="app-datepicker">
+      <div class="app-datepicker-col">
+        <p class="app-datepicker-label">Where are you flying from?</p>
+        <p class="app-datepicker-text js-airport">Click and select an airport</p>
+        <div class="app-datepicker-wrapper js-app-datepicker-menu">
+          <div class="app-datepicker-menu app-datepicker-menu-list">
+            <div class="app-datepicker-header">
+              <button type="button" class="close js-close">&#10006;</button>
+            </div>
+            <ul class="app-datepicker-list">
+              <li class="app-datepicker-item" data-value="[WAW] Chopin Airport Warsaw Okęcie" data-code="WAW"><b>[WAW]</b> Chopin Airport Warsaw Okęcie</li>
+
+              <li class="app-datepicker-item" data-value="[WMI] Chopin Airport Warsaw Okęcie" data-code="WMI"><b>[WMI]</b> Warsaw Modlin Airport</li>
+
+              <li class="app-datepicker-item" data-value="[KTW] Chopin Airport Warsaw Okęcie" data-code="KTW"><b>[KTW]</b> Katowice Pyrzowice Airport</li>
+
+              <li class="app-datepicker-item" data-value="[KRK] Chopin Airport Warsaw Okęcie" data-code="KRK"><b>[KRK]</b> Krakow Balice Airport</li>
+
+              <li class="app-datepicker-item" data-value="[GDN] Chopin Airport Warsaw Okęcie" data-code="GDN"><b>[GDN]</b> Gdansk Airport</li>
+
+              <li class="app-datepicker-item" data-value="[WRO] Chopin Airport Warsaw Okęcie" data-code="WRO"><b>[WRO]</b> Wroclaw Strachowice Airport</li>
+
+              <li class="app-datepicker-item" data-value="[POZ] Chopin Airport Warsaw Okęcie" data-code="POZ"><b>[POZ]</b> Poznan Lawica Airport</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="app-datepicker-col">
+        <div class="app-datepicker-value">
+          <p class="app-datepicker-label">Arrival Date at Parking</p>
+          <div class="app-datepicker-date">
+            <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+            <p class="app-datepicker-text js-first-date">Select a date</p>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+              <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="app-datepicker-value">
+          <p class="app-datepicker-label">Departure Date from Parking</p>
+          <div class="app-datepicker-date">
+            <img src="https://cdn-icons-png.flaticon.com/128/2370/2370264.png" alt="calendar" width="25" height="25" />
+            <p class="app-datepicker-text js-second-date">Select a date</p>
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32" class="down-arrow">
+              <path d="M28.226 8l1.774 1.576-14 14.424-14-14.424 1.774-1.576 12.226 12.596z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="app-datepicker-wrapper js-app-datepicker-menu">
+          <div class="app-datepicker-menu app-datepicker-content">
+            <div class="app-datepicker-header js-app-datepicker-header">
+              <button type="button" class="close js-close">&#10006;</button>
+              <div class="flatpickr-weekdaycontainer">
+                <span class="flatpickr-weekday">Pn</span>
+                <span class="flatpickr-weekday">Wt</span>
+                <span class="flatpickr-weekday">Śr</span>
+                <span class="flatpickr-weekday">Cz</span>
+                <span class="flatpickr-weekday">Pt</span>
+                <span class="flatpickr-weekday">So</span>
+                <span class="flatpickr-weekday">Nd</span>
+              </div>
+            </div>
+            <div class="app-datepicker-body">
+              <p class="datepicker"></p>
+            </div>
+            <div class="app-datepicker-footer">
+              <button class="app-datepicker-btn js-btn-done" type="button" disabled>Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="app-datepicker-col">
+        <button type="button" class="app-datepicker-btn js-btn-send">
+          <img src="https://cdn-icons-png.flaticon.com/128/3031/3031293.png" alt="Search" width="20" height="20" />
+          Search for Parking
+        </button>
+      </div>
+    </div>
+  </div>
 
     <script src="./js/main.js" type="module"></script>
   </body>

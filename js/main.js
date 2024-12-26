@@ -6,5 +6,13 @@ const handler = (payload) => {
   console.log("payload ", payload);
 };
 
-const datepicker = new Datepicker({ flatpickr, callback: handler });
-datepicker.start("en");
+const handler2 = (payload) => {
+  console.log("payload2 ", payload);
+};
+
+const datepicker = new Datepicker({ flatpickr, callback: handler, mainSelector: ".my-datepicker" });
+
+const datepicker2 = new Datepicker({ flatpickr, callback: handler2, mainSelector: ".my-datepicker-2", locale: "pl" });
+
+datepicker.start();
+datepicker2.start();

@@ -4,7 +4,7 @@ export default class Datepicker {
     this.mainSelector = document.querySelector(mainSelector);
     this.showMonthsMob = showMonthsMob;
     this.showMonthsDes = showMonthsDes;
-    this.appendTo = "#datepicker";
+    this.appendTo = mainSelector + " .datepicker";
     this.screenWidth = screenWidth;
     this._languages = null;
     this.flatpickr = flatpickr;
@@ -54,6 +54,7 @@ export default class Datepicker {
 
   // Utilities
   updateContent(selector, content) {
+    console.log("this.mainSelector ", this.mainSelector);
     this.mainSelector.querySelector(selector).textContent = content;
   }
 
@@ -115,7 +116,7 @@ export default class Datepicker {
     };
 
     if (this.date.length) obj.defaultDate = this.date;
-    this.instance = this.flatpickr(this.appendTo, obj);
+    this.instance = this.flatpickr(this.appendTo, obj)[0];
   }
 
   getAirport(airport) {
@@ -128,6 +129,7 @@ export default class Datepicker {
 
   // Initialization
   async start() {
+    console.log("this.mainSelector ", this.mainSelector);
     this.languages = await this.receiveATransfer();
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
@@ -211,6 +213,7 @@ export default class Datepicker {
   }
 
   destroy() {
+    console.log(this);
     if (!this.instance) return;
     this.instance.destroy();
     this.instance = null;
