@@ -54,7 +54,6 @@ export default class Datepicker {
 
   // Utilities
   updateContent(selector, content) {
-    console.log("this.mainSelector ", this.mainSelector);
     this.mainSelector.querySelector(selector).textContent = content;
   }
 
@@ -129,7 +128,6 @@ export default class Datepicker {
 
   // Initialization
   async start() {
-    console.log("this.mainSelector ", this.mainSelector);
     this.languages = await this.receiveATransfer();
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
@@ -213,7 +211,6 @@ export default class Datepicker {
   }
 
   destroy() {
-    console.log(this);
     if (!this.instance) return;
     this.instance.destroy();
     this.instance = null;
