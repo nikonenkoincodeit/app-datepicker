@@ -145,6 +145,18 @@ datepicker.start();
 
 ---
 
-## Licencja
-Ten projekt jest licencjonowany na podstawie licencji MIT. Więcej informacji znajduje się w pliku LICENSE.
+## Ustawić domyślną datę w datepicker. 
+Przykład kodu:
+```javascript
+const today = new Date();
+
+const dates = [today];
+
+const threeDaysLater = new Date();
+threeDaysLater.setDate(today.getDate() + 3);
+dates.push(threeDaysLater);
+
+const datepicker = new Datepicker({ flatpickr, callback: handler, mainSelector: ".my-datepicker", dates: dates });
+```
+
 
