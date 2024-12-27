@@ -261,7 +261,7 @@ body {
   margin-bottom: 10px;
 }
 
-.my-datepicker,
+.app-datepicker,
 .app-datepicker-body .flatpickr-day {
   color: #3b444f;
 }
@@ -270,6 +270,10 @@ body {
 .app-datepicker-body .flatpickr-day.flatpickr-disabled:hover {
   cursor: not-allowed;
   color: #3b444f76;
+}
+
+.app-datepicker-col:first-child .app-datepicker-text:hover {
+  color: #999;
 }
 
 @media screen and (max-width: 991px) {

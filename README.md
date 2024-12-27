@@ -52,6 +52,7 @@ Klasa `Datepicker` przyjmuje następujące parametry:
 | `screenWidth`      | `number`  | `991`        | Szerokość ekranu do przełączania widoków między urządzeniami.        |
 | `mainSelector`     | `string`  | `.my-datepicker` | Selektor CSS głównego kontenera wyboru daty.                          |
 | `callback`         | `function`| `null`       | Funkcja wywoływana po wyborze daty.                                  |
+| `dates`         | `array`| `array`       | Nieobowiązkowy parametr: tablica z datami.                                  |
 
 ---
 

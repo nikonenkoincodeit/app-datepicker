@@ -1,5 +1,5 @@
 export default class Datepicker {
-  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "en", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker", callback = null } = {}) {
+  constructor({ showMonthsMob = 12, showMonthsDes = 2, locale = "en", flatpickr = null, screenWidth = 991, mainSelector = ".my-datepicker", callback = null, dates = [] } = {}) {
     this.closeClasses = ["js-btn-done", "app-datepicker-wrapper", "js-close", "js-app-datepicker-send", "js-btn-send"];
     this.mainSelector = document.querySelector(mainSelector);
     this.showMonthsMob = showMonthsMob;
@@ -14,7 +14,7 @@ export default class Datepicker {
     this.showMonths = 2;
     this._airport = "";
     this.code = "";
-    this._date = [];
+    this._dates = dates;
     this.flags = { isMobile: false, isDesktop: false };
 
     this.instance = null;
@@ -42,13 +42,13 @@ export default class Datepicker {
     return window.innerWidth < this.screenWidth;
   }
 
-  get date() {
-    return this._date;
+  get dates() {
+    return this._dates;
   }
 
-  set date(value) {
-    this._date = value;
-    this.updateButtonState(".js-btn-done", this._date.length !== 2);
+  set dates(value) {
+    this._dates = value;
+    this.updateButtonState(".js-btn-done", this._dates.length !== 2);
     this.addDate();
   }
 
@@ -109,12 +109,12 @@ export default class Datepicker {
         this.updateFlatpickr();
       },
       onChange: (selectedDates) => {
-        this.date = selectedDates;
+        this.dates = selectedDates;
         this.updateFlatpickr();
       },
     };
 
-    if (this.date.length) obj.defaultDate = this.date;
+    if (this.dates.length) obj.defaultDate = this.dates;
     this.instance = this.flatpickr(this.appendTo, obj)[0];
   }
 
@@ -133,6 +133,7 @@ export default class Datepicker {
     this.createFlatpickr();
     this.addEventListeners();
     this.setCorrectHeight();
+    if (this.dates.length) this.addDate();
   }
 
   addEventListeners() {
@@ -159,7 +160,7 @@ export default class Datepicker {
 
   addDate() {
     const placeholder = this.languages?.placeholderDate;
-    const [from, to] = this.formatDates(this.date, this.locale);
+    const [from, to] = this.formatDates(this.dates, this.locale);
 
     this.updateContent(".js-first-date", from ? from : placeholder);
     this.updateContent(".js-second-date", to ? to : placeholder);
@@ -182,7 +183,7 @@ export default class Datepicker {
   }
 
   send() {
-    const [from, to] = this.formatDates(this.date, this.locale);
+    const [from, to] = this.formatDates(this.dates, this.locale);
     this.callback({ fromDate: from || "", toDate: to || "", code: this.code });
   }
 
