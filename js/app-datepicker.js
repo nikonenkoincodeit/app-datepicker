@@ -109,12 +109,15 @@ export default class Datepicker {
         this.updateFlatpickr();
       },
       onChange: (selectedDates) => {
-        console.log("selectedDates ", selectedDates[0].getTime());
+        console.log("this.dates.length ", this.dates.length);
+        console.log("selectedDates.length ", selectedDates.length);
 
         if (this.dates.length === 2 && selectedDates.length === 1) {
           if (selectedDates[0].getTime() > this.dates[0].getTime()) {
             this.dates[1] = selectedDates[0];
             this.instance.setDate(this.dates, true);
+          } else {
+            this.dates = selectedDates;
           }
         } else {
           this.dates = selectedDates;
