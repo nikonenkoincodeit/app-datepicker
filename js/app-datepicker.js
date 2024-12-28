@@ -109,9 +109,6 @@ export default class Datepicker {
         this.updateFlatpickr();
       },
       onChange: (selectedDates) => {
-        console.log("this.dates.length ", this.dates.length);
-        console.log("selectedDates.length ", selectedDates.length);
-
         if (this.dates.length === 2 && selectedDates.length === 1) {
           if (selectedDates[0].getTime() > this.dates[0].getTime()) {
             this.dates[1] = selectedDates[0];
