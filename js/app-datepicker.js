@@ -109,13 +109,27 @@ export default class Datepicker {
         this.updateFlatpickr();
       },
       onChange: (selectedDates) => {
-        this.dates = selectedDates;
+        console.log("selectedDates ", selectedDates[0].getTime());
+
+        if (this.dates.length === 2 && selectedDates.length === 1) {
+          if (selectedDates[0].getTime() > this.dates[0].getTime()) {
+            this.dates[1] = selectedDates[0];
+            this.instance.setDate(this.dates, true);
+          }
+        } else {
+          this.dates = selectedDates;
+        }
+
+        if (selectedDates.length === 2) {
+          this.closeMenus();
+        }
+
         this.updateFlatpickr();
       },
     };
 
     if (this.dates.length) obj.defaultDate = this.dates;
-    this.instance = this.flatpickr(this.appendTo, obj)[0];
+    this.instance = this.flatpickr(this.appendTo, obj);
   }
 
   getAirport(airport) {
