@@ -14,7 +14,7 @@ export default class Datepicker {
     this.showMonths = 2;
     this._airport = "";
     this.code = "";
-    this._dates = null;
+    this._dates = [];
     this.flags = { isMobile: false, isDesktop: false };
     if (dates?.length) this.dates = dates;
     this.instance = null;
@@ -49,7 +49,7 @@ export default class Datepicker {
   set dates(value) {
     this._dates = value;
     this.updateButtonState(".js-btn-done", this._dates.length !== 2);
-    this.addDate();
+    if (this._dates?.length) this.addDate();
   }
 
   // Utilities
