@@ -14,7 +14,7 @@ export default class Datepicker {
     this.showMonths = 2;
     this._airport = "";
     this.code = "";
-    this._dates = [];
+    this._dates = dates;
     this.flags = { isMobile: false, isDesktop: false };
     if (dates?.length) this.dates = dates;
     this.instance = null;
@@ -62,8 +62,8 @@ export default class Datepicker {
   }
 
   formatDates(dates, language) {
-    alert(dates);
-    alert(language);
+    alert(`Dates for ${this.mainSelector.className}:`, this.dates);
+
     if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
       throw new Error("Invalid input: provide an array of dates and a valid language code (pl or en).");
     }
@@ -153,7 +153,7 @@ export default class Datepicker {
     if (this.dates?.length) {
       obj.defaultDate = [...this.dates];
     }
-    this.instance = this.flatpickr(this.appendTo, { ...obj });
+    this.instance = new this.flatpickr(this.appendTo, { ...obj });
   }
 
   getAirport(airport) {
@@ -172,7 +172,7 @@ export default class Datepicker {
     this.createFlatpickr();
     this.addEventListeners();
     this.updateFlatpickr();
-    if (this.dates?.length) this.addDate();
+    // if (this.dates?.length) this.addDate();
   }
 
   addEventListeners() {
