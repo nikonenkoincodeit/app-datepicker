@@ -62,15 +62,21 @@ export default class Datepicker {
   }
 
   formatDates(dates, language) {
-    console.log(`Dates for ${this.mainSelector.className}: ${this.dates}`);
-
     if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
       throw new Error("Invalid input: provide an array of dates and a valid language code (pl or en).");
     }
 
-    const formatter = new Intl.DateTimeFormat(language === "pl" ? "pl-PL" : "en-US", {
+    const locale = language === "pl" ? "pl-PL" : "en-US";
+
+    const formatterDay = new Intl.DateTimeFormat(locale, {
       day: "2-digit",
+    });
+
+    const formatterMonth = new Intl.DateTimeFormat(locale, {
       month: "short",
+    });
+
+    const formatterYear = new Intl.DateTimeFormat(locale, {
       year: "numeric",
     });
 
@@ -78,7 +84,11 @@ export default class Datepicker {
       if (!(date instanceof Date)) {
         throw new Error("All elements in the array must be Date objects.");
       }
-      let [day, month, year] = formatter.format(date).split(" ");
+
+      let day = formatterDay.format(date);
+      let month = formatterMonth.format(date);
+      let year = formatterYear.format(date);
+
       return `${day} ${month[0].toUpperCase() + month.slice(1).replace(".", "")} / ${year}`;
     });
   }
