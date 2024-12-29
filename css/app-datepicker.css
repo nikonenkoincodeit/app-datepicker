@@ -295,7 +295,7 @@ body {
     width: 90% !important;
     max-width: 90% !important;
     grid-template-columns: repeat(7, 1fr);
-    outline: 1px solid red;
+    outline: 1px solid blue;
   }
 
   .dayContainer + .dayContainer {

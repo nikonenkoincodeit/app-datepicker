@@ -147,7 +147,7 @@ export default class Datepicker {
     if (this.dates?.length) {
       obj.defaultDate = [...this.dates];
     }
-    this.instance = this.flatpickr(this.appendTo, obj);
+    this.instance = this.flatpickr(this.appendTo, { ...obj });
   }
 
   getAirport(airport) {
