@@ -113,14 +113,14 @@ export default class Datepicker {
 
         const update = () => {
           const { currentYear, currentMonth } = this.instance;
-          this.instance.setDate(this.dates, false);
+          this.instance.setDate([...this.dates], false);
           this.instance.jumpToDate(new Date(currentYear, currentMonth, 1));
         };
 
         if (selectedDatesLength === 1) {
           if (datesLength === 2) {
             if (selectedDates[0] > this.dates[0]) {
-              this.dates[1] = selectedDates[0];
+              this.dates = [this.dates[0], selectedDates[0]];
               update();
             } else {
               this.dates = [selectedDates[0]];
@@ -169,7 +169,6 @@ export default class Datepicker {
   }
 
   addEventListeners() {
-    window.addEventListener("resize", this.resize.bind(this));
     this.mainSelector.addEventListener("click", this.handleClick.bind(this));
   }
 
@@ -182,7 +181,6 @@ export default class Datepicker {
   handleClick(e) {
     e.stopPropagation();
     if (e.target.closest(".js-btn-send")) this.send();
-    // if (e.target.closest(".js-btn-done")) this.done();
     const result = this.closeClasses.some((cls) => e.target.classList.contains(cls));
     if (result) return this.closeMenus();
 
@@ -219,35 +217,6 @@ export default class Datepicker {
     this.callback({ fromDate: from || "", toDate: to || "", code: this.code });
   }
 
-  // Handling window resizing
-  resize() {
-    const isMobile = this.isMobile;
-    this.setCorrectHeight();
-    if (isMobile && !this.flags.isMobile) {
-      this.showMonths = this.showMonthsMob;
-      this.flags.isMobile = true;
-      this.flags.isDesktop = false;
-      // this.update(2);
-    } else if (!isMobile && !this.flags.isDesktop) {
-      this.showMonths = this.showMonthsDes;
-      this.flags.isMobile = false;
-      this.flags.isDesktop = true;
-      // this.update(12);
-    }
-  }
-
-  update(value) {
-    // this.destroy();
-    // this.createFlatpickr();
-    console.log("value ", value);
-    this.instance.set("showMonths", value);
-  }
-
-  // destroy() {
-  //   if (!this.instance) return;
-  //   this.instance.destroy();
-  //   this.instance = null;
-  // }
   updateFlatpickr() {
     if (!this.isMobile) return;
 
