@@ -198,11 +198,13 @@ export default class Datepicker {
 
   toggleMenu(parent) {
     this.closeMenus();
+    if (this.isMobile) document.body.classList.add("scroll-no");
     parent.querySelector(".js-app-datepicker-menu")?.classList.add("show");
     window.addEventListener("click", this.closeMenus.bind(this));
   }
 
   closeMenus() {
+    if (this.isMobile) document.body.classList.remove("scroll-no");
     this.mainSelector.querySelectorAll(".js-app-datepicker-menu").forEach((menu) => menu.classList.remove("show"));
   }
 
