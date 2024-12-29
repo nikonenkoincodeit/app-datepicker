@@ -164,7 +164,7 @@ export default class Datepicker {
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
     this.addEventListeners();
-    this.setCorrectHeight();
+    // this.setCorrectHeight();
     if (this.dates?.length) this.addDate();
   }
 
@@ -198,7 +198,10 @@ export default class Datepicker {
 
   toggleMenu(parent) {
     this.closeMenus();
-    if (this.isMobile) document.body.classList.add("scroll-no");
+    if (this.isMobile) {
+      this.setCorrectHeight();
+      document.body.classList.add("scroll-no");
+    }
     parent.querySelector(".js-app-datepicker-menu")?.classList.add("show");
     window.addEventListener("click", this.closeMenus.bind(this));
   }
