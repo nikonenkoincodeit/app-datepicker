@@ -62,7 +62,7 @@ export default class Datepicker {
   }
 
   formatDates(dates, language) {
-    alert(`Dates for ${this.mainSelector.className}:`, this.dates);
+    alert(`Dates for ${this.mainSelector.className}: ${this.dates}`);
 
     if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
       throw new Error("Invalid input: provide an array of dates and a valid language code (pl or en).");
