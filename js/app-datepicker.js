@@ -164,7 +164,6 @@ export default class Datepicker {
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
     this.addEventListeners();
-    // this.setCorrectHeight();
     if (this.dates?.length) this.addDate();
   }
 
