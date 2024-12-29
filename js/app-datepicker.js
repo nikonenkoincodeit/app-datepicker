@@ -120,7 +120,11 @@ export default class Datepicker {
         if (selectedDatesLength === 1) {
           if (datesLength === 2) {
             if (selectedDates[0] > this.dates[0]) {
-              this.dates = [this.dates[0], selectedDates[0]];
+              if (selectedDates[0] < this.dates[1]) {
+                this.dates = [selectedDates[0], this.dates[1]];
+              } else {
+                this.dates = [this.dates[0], selectedDates[0]];
+              }
               update();
             } else {
               this.dates = [selectedDates[0]];
