@@ -62,6 +62,8 @@ export default class Datepicker {
   }
 
   formatDates(dates, language) {
+    alert(dates);
+    alert(language);
     if (!Array.isArray(dates) || !["pl", "en"].includes(language)) {
       throw new Error("Invalid input: provide an array of dates and a valid language code (pl or en).");
     }
