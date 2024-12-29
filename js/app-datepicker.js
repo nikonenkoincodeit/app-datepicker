@@ -14,9 +14,9 @@ export default class Datepicker {
     this.showMonths = 2;
     this._airport = "";
     this.code = "";
-    this._dates = dates;
+    this._dates = null;
     this.flags = { isMobile: false, isDesktop: false };
-
+    if (dates?.length) this.dates = dates;
     this.instance = null;
   }
 
@@ -102,33 +102,51 @@ export default class Datepicker {
       conjunction: "multiple",
       disableMobile: true,
       showMonths: this.showMonths,
-
       dateFormat: "Y-m-d",
       mode: "range",
       onReady: () => {
         this.updateFlatpickr();
       },
       onChange: (selectedDates) => {
-        if (this.dates.length === 2 && selectedDates.length === 1) {
-          if (selectedDates[0].getTime() > this.dates[0].getTime()) {
-            this.dates[1] = selectedDates[0];
-            this.instance.setDate(this.dates, true);
-          } else {
-            this.dates = selectedDates;
-          }
-        } else {
-          this.dates = selectedDates;
-        }
+        const selectedDatesLength = selectedDates.length;
+        const datesLength = this.dates?.length;
 
-        if (selectedDates.length === 2) {
+        const update = () => {
+          const { currentYear, currentMonth } = this.instance;
+          this.instance.setDate(this.dates, false);
+          this.instance.jumpToDate(new Date(currentYear, currentMonth, 1));
+        };
+
+        if (selectedDatesLength === 1) {
+          if (datesLength === 2) {
+            if (selectedDates[0] > this.dates[0]) {
+              this.dates[1] = selectedDates[0];
+              update();
+            } else {
+              this.dates = [selectedDates[0]];
+            }
+          } else {
+            this.dates = [selectedDates[0]];
+          }
+        } else if (selectedDatesLength === 2) {
+          const [firstDate, secondDate] = selectedDates;
+          if (firstDate < this.dates[0]) {
+            this.dates = [firstDate];
+          } else {
+            this.dates = [firstDate, secondDate];
+          }
+          update();
+        }
+        if (this.dates?.length === 2 && !this.isMobile) {
           this.closeMenus();
         }
-
         this.updateFlatpickr();
       },
     };
 
-    if (this.dates.length) obj.defaultDate = this.dates;
+    if (this.dates?.length) {
+      obj.defaultDate = [...this.dates];
+    }
     this.instance = this.flatpickr(this.appendTo, obj);
   }
 
@@ -147,7 +165,7 @@ export default class Datepicker {
     this.createFlatpickr();
     this.addEventListeners();
     this.setCorrectHeight();
-    if (this.dates.length) this.addDate();
+    if (this.dates?.length) this.addDate();
   }
 
   addEventListeners() {
@@ -201,8 +219,6 @@ export default class Datepicker {
     this.callback({ fromDate: from || "", toDate: to || "", code: this.code });
   }
 
-  // done() {}
-
   // Handling window resizing
   resize() {
     const isMobile = this.isMobile;
@@ -211,25 +227,27 @@ export default class Datepicker {
       this.showMonths = this.showMonthsMob;
       this.flags.isMobile = true;
       this.flags.isDesktop = false;
-      this.update();
+      // this.update(2);
     } else if (!isMobile && !this.flags.isDesktop) {
       this.showMonths = this.showMonthsDes;
       this.flags.isMobile = false;
       this.flags.isDesktop = true;
-      this.update();
+      // this.update(12);
     }
   }
 
-  update() {
-    this.destroy();
-    this.createFlatpickr();
+  update(value) {
+    // this.destroy();
+    // this.createFlatpickr();
+    console.log("value ", value);
+    this.instance.set("showMonths", value);
   }
 
-  destroy() {
-    if (!this.instance) return;
-    this.instance.destroy();
-    this.instance = null;
-  }
+  // destroy() {
+  //   if (!this.instance) return;
+  //   this.instance.destroy();
+  //   this.instance = null;
+  // }
   updateFlatpickr() {
     if (!this.isMobile) return;
 

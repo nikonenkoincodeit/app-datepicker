@@ -295,6 +295,7 @@ body {
 
   .dayContainer + .dayContainer {
     box-shadow: none;
+    margin-top: 40px;
   }
 
   .date-title {
@@ -332,7 +333,6 @@ body {
   .flatpickr-days {
     padding-top: 40px;
     flex-direction: column;
-    gap: 40px;
   }
   .app-datepicker-footer,
   .app-datepicker-header {
