@@ -280,6 +280,9 @@ body {
 }
 
 @media screen and (max-width: 991px) {
+  * {
+    outline: 1px solid red;
+  }
   .flatpickr-days,
   .flatpickr-calendar,
   .flatpickr-innerContainer,
@@ -336,7 +339,7 @@ body {
   .flatpickr-days {
     padding-top: 40px;
     flex-direction: column;
-    gap: 40px;
+    gap: 60px;
   }
   .app-datepicker-footer,
   .app-datepicker-header {
