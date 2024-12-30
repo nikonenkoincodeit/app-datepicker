@@ -182,7 +182,7 @@ export default class Datepicker {
     this.createFlatpickr();
     this.addEventListeners();
     this.updateFlatpickr();
-    // if (this.dates?.length) this.addDate();
+    if (this.dates?.length) this.addDate();
   }
 
   addEventListeners() {

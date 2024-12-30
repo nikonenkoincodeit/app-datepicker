@@ -281,6 +281,9 @@ body {
 }
 
 @media screen and (max-width: 991px) {
+  * {
+    outline: 1px solid red;
+  }
   .flatpickr-days,
   .flatpickr-calendar,
   .flatpickr-innerContainer,
