@@ -197,12 +197,20 @@ export default class Datepicker {
   // Event Handling
   handleClick(e) {
     e.stopPropagation();
+    if (e.target.closest(".app-datepicker-btn")) this.addAnimation(e.target);
     if (e.target.closest(".js-btn-send")) this.send();
     const result = this.closeClasses.some((cls) => e.target.classList.contains(cls));
     if (result) return this.closeMenus();
 
     if (e.target.classList.contains("app-datepicker-item")) return this.selectAirport(e.target);
     if (e.target.closest(".app-datepicker-col")) this.toggleMenu(e.target.closest(".app-datepicker-col"));
+  }
+
+  addAnimation(target) {
+    target.classList.add("active");
+    setTimeout(() => {
+      target.classList.remove("active");
+    }, 300);
   }
 
   addDate() {

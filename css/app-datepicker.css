@@ -121,8 +121,7 @@ body {
   cursor: not-allowed;
 }
 
-.app-datepicker-btn:not(:disabled):active,
-.app-datepicker-btn:not(:disabled):hover {
+.app-datepicker-btn.active:not(:disabled) {
   box-shadow: 0 4px 11px rgba(41, 124, 187, 0.35);
   transform: translateY(-3px);
 }
@@ -281,9 +280,6 @@ body {
 }
 
 @media screen and (max-width: 991px) {
-  * {
-    outline: 1px solid red;
-  }
   .flatpickr-days,
   .flatpickr-calendar,
   .flatpickr-innerContainer,
@@ -299,12 +295,10 @@ body {
     width: 90% !important;
     max-width: 90% !important;
     grid-template-columns: repeat(7, 1fr);
-    outline: 1px solid blue;
   }
 
   .dayContainer + .dayContainer {
     box-shadow: none;
-    /* margin-top: 40px; */
   }
 
   .date-title {
