@@ -176,7 +176,6 @@ export default class Datepicker {
 
   // Initialization
   async start() {
-    // alert(1);
     this.languages = await this.receiveATransfer();
     this.showMonths = this.isMobile ? this.showMonthsMob : this.showMonthsDes;
     this.createFlatpickr();
@@ -200,7 +199,6 @@ export default class Datepicker {
     e.stopPropagation();
     if (e.target.closest(".app-datepicker-btn")) this.addAnimation(e.target);
     if (e.target.closest(".js-btn-send")) this.send();
-    // if (e.target.closest(".js-btn-done")) this.done();
     const result = this.closeClasses.some((cls) => e.target.classList.contains(cls));
     if (result) return this.closeMenus();
 
@@ -223,18 +221,22 @@ export default class Datepicker {
     this.updateContent(".js-second-date", to ? to : placeholder);
   }
 
+  toggleScroll(toggle) {
+    if (this.isMobile && toggle) document.body.classList.add("scroll-no");
+    else document.body.classList.remove("scroll-no");
+    this.setCorrectHeight();
+  }
+
   toggleMenu(parent) {
+    this.setCorrectHeight();
     this.closeMenus();
-    if (this.isMobile) {
-      this.setCorrectHeight();
-      document.body.classList.add("scroll-no");
-    }
+    this.toggleScroll(true);
     parent.querySelector(".js-app-datepicker-menu")?.classList.add("show");
     window.addEventListener("click", this.closeMenus.bind(this));
   }
 
   closeMenus() {
-    if (this.isMobile) document.body.classList.remove("scroll-no");
+    this.toggleScroll(false);
     this.mainSelector.querySelectorAll(".js-app-datepicker-menu").forEach((menu) => menu.classList.remove("show"));
   }
 
@@ -257,27 +259,32 @@ export default class Datepicker {
       this.showMonths = this.showMonthsMob;
       this.flags.isMobile = true;
       this.flags.isDesktop = false;
-      // this.update(2);
+      this.update(12);
     } else if (!isMobile && !this.flags.isDesktop) {
       this.showMonths = this.showMonthsDes;
       this.flags.isMobile = false;
       this.flags.isDesktop = true;
-      // this.update(12);
+      this.update(2);
     }
   }
 
-  update(value) {
-    // this.destroy();
-    // this.createFlatpickr();
-    console.log("value ", value);
-    this.instance.set("showMonths", value);
+  showActiveDate() {
+    const { currentYear, currentMonth } = this.instance;
+    this.instance.jumpToDate(new Date(currentYear, currentMonth, 1));
   }
 
-  // destroy() {
-  //   if (!this.instance) return;
-  //   this.instance.destroy();
-  //   this.instance = null;
-  // }
+  update(value) {
+    this.destroy();
+    this.createFlatpickr();
+    this.showActiveDate();
+    this.updateFlatpickr();
+  }
+
+  destroy() {
+    if (!this.instance) return;
+    this.instance.destroy();
+    this.instance = null;
+  }
   updateFlatpickr() {
     if (!this.isMobile) return;
 

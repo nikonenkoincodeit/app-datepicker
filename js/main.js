@@ -24,4 +24,3 @@ const datepicker2 = new Datepicker({ flatpickr, callback: handler2, mainSelector
 
 datepicker.start();
 datepicker2.start();
-alert("Hello world!");
