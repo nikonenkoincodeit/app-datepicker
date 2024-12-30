@@ -253,6 +253,10 @@ export default class Datepicker {
     const dayContainer = this.mainSelector.querySelectorAll(".dayContainer");
     const flatpickrMonth = this.mainSelector.querySelectorAll(".flatpickr-month");
 
+    this.mainSelector.querySelectorAll(".date-title").forEach((el) => {
+      el.remove();
+    });
+
     dayContainer.forEach((target, index) => {
       const el = flatpickrMonth[index];
       const text = el.textContent;
